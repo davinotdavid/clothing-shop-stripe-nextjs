@@ -4,6 +4,7 @@ import { ImageContainer, SuccessContainer } from "@/styles/pages/success";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import Image from "next/image";
+import Head from "next/head";
 
 interface SuccessProps {
   customerName: string;
@@ -15,19 +16,26 @@ interface SuccessProps {
 
 export default function Success({ customerName, product }: SuccessProps) {
   return (
-    <SuccessContainer>
-      <h1>Order successful!</h1>
-      <ImageContainer>
-        <Image src={product.imageUrl} width={120} height={110} alt="" />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>Order successful | Ignite Shop</title>
+        <meta name="robots" content="noindex" />
+      </Head>
 
-      <p>
-        Woohoo <strong>{customerName}</strong>, your t-shirt{" "}
-        <strong>{product.name}</strong> is on its way to you!
-      </p>
+      <SuccessContainer>
+        <h1>Order successful!</h1>
+        <ImageContainer>
+          <Image src={product.imageUrl} width={120} height={110} alt="" />
+        </ImageContainer>
 
-      <Link href="/">Back to catalog</Link>
-    </SuccessContainer>
+        <p>
+          Woohoo <strong>{customerName}</strong>, your t-shirt{" "}
+          <strong>{product.name}</strong> is on its way to you!
+        </p>
+
+        <Link href="/">Back to catalog</Link>
+      </SuccessContainer>
+    </>
   );
 }
 
