@@ -15,7 +15,7 @@ export default async function handler(
     return res.status(400).json({ error: "Price ID is required" });
   }
 
-  const successUrl = `${process.env.NEXT_DEV_URL}/success`;
+  const successUrl = `${process.env.NEXT_DEV_URL}/success?session_id={CHECKOUT_SESSION_ID}`;
   const cancelUrl = `${process.env.NEXT_DEV_URL}/`;
 
   // Stripe API requires the creation of a checkout session
