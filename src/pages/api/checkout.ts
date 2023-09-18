@@ -7,6 +7,14 @@ export default async function handler(
 ) {
   const { priceId } = req.body;
 
+  if (req.method !== "POST") {
+    return res.status(405);
+  }
+
+  if (!priceId) {
+    return res.status(400).json({ error: "Price ID is required" });
+  }
+
   const successUrl = `${process.env.NEXT_DEV_URL}/success`;
   const cancelUrl = `${process.env.NEXT_DEV_URL}/`;
 
