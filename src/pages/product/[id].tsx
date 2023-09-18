@@ -2,12 +2,14 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Stripe from "stripe";
+import axios from "axios";
 import { stripe } from "@/lib/stripe";
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from "@/styles/pages/product";
+import { useState } from "react";
 
 interface ProductProps {
   product: {
@@ -15,15 +17,36 @@ interface ProductProps {
     name: string;
     imageUrl: string;
     price: string;
+    defaultPriceId: string;
     description: string;
   };
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <p>Loading...</p>;
+  }
+
+  async function handleOnBuyNowClicked() {
+    try {
+      setIsCreatingCheckoutSession(true);
+
+      const response = await axios.post("/api/checkout", {
+        priceId: product.defaultPriceId,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      // TODO: Add Sentry / Datadog for capturing this error
+      setIsCreatingCheckoutSession(false);
+      alert("Error while redirecting to checkout!");
+    }
   }
 
   return (
@@ -38,7 +61,12 @@ export default function Product({ product }: ProductProps) {
 
         <p>{product.description}</p>
 
-        <button>Buy now</button>
+        <button
+          onClick={handleOnBuyNowClicked}
+          disabled={isCreatingCheckoutSession}
+        >
+          Buy now
+        </button>
       </ProductDetails>
     </ProductContainer>
   );
@@ -79,6 +107,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
+        defaultPriceId: price.id,
         price: price.unit_amount
           ? new Intl.NumberFormat("en-CA", {
               style: "currency",
