@@ -4,8 +4,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'placekitten.com',
+        protocol: 'https',
+        hostname: 'files.stripe.com',
       },
     ],
   },
