@@ -13,9 +13,11 @@ export const CartContainer = styled("aside", {
   variants: {
     isOpen: {
       open: {
+        transition: "all 0.350s ease-in-out",
         transform: "translateX(0%)",
       },
       closed: {
+        transition: "all 0.350s ease-in-out",
         transform: "translateX(110%)",
       },
     },
@@ -29,7 +31,8 @@ export const CartContainer = styled("aside", {
 
   ul: {
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
+    alignItems: "flex-start",
     gap: "1.5rem",
 
     li: {

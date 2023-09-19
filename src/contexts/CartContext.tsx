@@ -1,11 +1,25 @@
 import { ReactNode, createContext, useState } from "react";
 
+type Product = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: string;
+  defaultPriceId: string;
+  description: string;
+};
+
 type CartContextType = {
-  cartItems: [];
+  cartItems: Product[];
   isOpen: boolean;
-  addItemToCart: () => void;
+  addItemToCart: (product: Product) => void;
   removeItemFromCart: () => void;
   toggleCartOpen: () => void;
+};
+
+type CartContextState = {
+  cartItems: Product[];
+  isOpen: boolean;
 };
 
 export const CartContext = createContext<CartContextType>(
@@ -17,11 +31,19 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [shoppingCart, setShoppingCart] = useState<CartContextType>(
-    {} as CartContextType
-  );
+  const [shoppingCart, setShoppingCart] = useState<CartContextState>({
+    cartItems: [],
+    isOpen: false,
+  });
 
-  function addItemToCart() {}
+  function addItemToCart(product: Product) {
+    setShoppingCart((prev) => {
+      return {
+        ...prev,
+        cartItems: [...prev.cartItems, product],
+      };
+    });
+  }
 
   function removeItemFromCart() {}
 

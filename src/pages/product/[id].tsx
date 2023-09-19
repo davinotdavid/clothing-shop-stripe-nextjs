@@ -1,16 +1,16 @@
+import { useContext } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import Stripe from "stripe";
-import axios from "axios";
 import { stripe } from "@/lib/stripe";
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from "@/styles/pages/product";
-import { useState } from "react";
-import Head from "next/head";
+import { CartContext } from "@/contexts/CartContext";
 
 interface ProductProps {
   product: {
@@ -24,30 +24,15 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  const { addItemToCart } = useContext(CartContext);
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <p>Loading...</p>;
   }
 
-  async function handleOnBuyNowClicked() {
-    try {
-      setIsCreatingCheckoutSession(true);
-
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      // TODO: Add Sentry / Datadog for capturing this error
-      setIsCreatingCheckoutSession(false);
-      alert("Error while redirecting to checkout!");
-    }
+  function handleAddToCartClicked() {
+    addItemToCart(product);
   }
 
   return (
@@ -67,12 +52,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            onClick={handleOnBuyNowClicked}
-            disabled={isCreatingCheckoutSession}
-          >
-            Buy now
-          </button>
+          <button onClick={handleAddToCartClicked}>Add to cart</button>
         </ProductDetails>
       </ProductContainer>
     </>

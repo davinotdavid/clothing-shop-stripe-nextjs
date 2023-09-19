@@ -6,7 +6,7 @@ import logoSVG from "@/assets/logo.svg";
 import { StyledHeader } from "./styles";
 
 export function Header() {
-  const { toggleCartOpen } = useContext(CartContext);
+  const { toggleCartOpen, cartItems } = useContext(CartContext);
 
   function handleCartButtonClicked() {
     toggleCartOpen();
@@ -18,7 +18,7 @@ export function Header() {
 
       <button onClick={handleCartButtonClicked}>
         <Handbag size={24} weight="bold" />
-        <span>1</span>
+        {cartItems.length > 0 && <span>{cartItems.length}</span>}
       </button>
     </StyledHeader>
   );

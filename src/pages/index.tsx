@@ -8,17 +8,24 @@ import "keen-slider/keen-slider.min.css";
 import { HomeContainer, Product } from "@/styles/pages/home";
 import { stripe } from "@/lib/stripe";
 import { Handbag } from "phosphor-react";
+import { useContext } from "react";
+import { CartContext } from "@/contexts/CartContext";
+
+interface Product {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: string;
+  defaultPriceId: string;
+  description: string;
+}
 
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-  }[];
+  products: Product[];
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addItemToCart } = useContext(CartContext);
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -26,12 +33,13 @@ export default function Home({ products }: HomeProps) {
     },
   });
 
-  function handleOnAddToCartClicked(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    event.preventDefault();
-    console.log("hey");
-  }
+  const handleOnAddToCartClicked =
+    (product: Product) =>
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+
+      addItemToCart(product);
+    };
 
   return (
     <>
@@ -55,7 +63,7 @@ export default function Home({ products }: HomeProps) {
                   <span>CAD {product.price}</span>
                 </div>
 
-                <button onClick={handleOnAddToCartClicked}>
+                <button onClick={handleOnAddToCartClicked(product)}>
                   <Handbag size={32} weight="bold" />
                 </button>
               </footer>
@@ -85,6 +93,8 @@ export const getStaticProps: GetStaticProps = async () => {
             currency: "CAD",
           }).format(price.unit_amount / 100)
         : null,
+      defaultPriceId: price.id,
+      description: product.description,
     };
   });
 
