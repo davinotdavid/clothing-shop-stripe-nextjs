@@ -44,7 +44,12 @@ export function ShoppingCart() {
       setIsCreatingCheckoutSession(true);
 
       const response = await axios.post("/api/checkout", {
-        priceId: "", //product.defaultPriceId,
+        lineItems: cartItems.map((cartItem) => {
+          return {
+            price: cartItem.defaultPriceId,
+            quantity: 1,
+          };
+        }),
       });
 
       const { checkoutUrl } = response.data;
