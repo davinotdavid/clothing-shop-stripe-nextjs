@@ -15,7 +15,8 @@ import {
 export function ShoppingCart() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
-  const { isOpen, toggleCartOpen, cartItems } = useContext(CartContext);
+  const { isOpen, toggleCartOpen, cartItems, removeItemFromCart } =
+    useContext(CartContext);
 
   const totalCartValue = new Intl.NumberFormat("en-CA", {
     style: "currency",
@@ -29,6 +30,13 @@ export function ShoppingCart() {
 
   function handleOnCloseClicked() {
     toggleCartOpen();
+  }
+
+  function handleRemoveItemClicked(cartItemId: string) {
+    return (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+      removeItemFromCart(cartItemId);
+    };
   }
 
   async function handleCompleteOrderClicked() {
@@ -70,7 +78,9 @@ export function ShoppingCart() {
               <span>
                 <strong>CAD {cartItem.price}</strong>
               </span>
-              <button>Remove</button>
+              <button onClick={handleRemoveItemClicked(cartItem.id)}>
+                Remove
+              </button>
             </CartItemTextContainer>
           </li>
         ))}
@@ -91,7 +101,7 @@ export function ShoppingCart() {
 
         <button
           onClick={handleCompleteOrderClicked}
-          disabled={isCreatingCheckoutSession}
+          disabled={cartItems.length === 0 || isCreatingCheckoutSession}
         >
           Complete order
         </button>

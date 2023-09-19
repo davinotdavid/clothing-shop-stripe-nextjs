@@ -115,7 +115,12 @@ export const SummaryContainer = styled("footer", {
     fontWeight: "700",
     cursor: "pointer",
 
-    "&:hover": {
+    "&:disabled": {
+      opacity: 0.6,
+      cursor: "not-allowed",
+    },
+
+    "&:not(:disabled):hover": {
       backgroundColor: "$green300",
     },
   },

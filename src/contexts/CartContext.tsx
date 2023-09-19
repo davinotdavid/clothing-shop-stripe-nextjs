@@ -13,7 +13,7 @@ type CartContextType = {
   cartItems: Product[];
   isOpen: boolean;
   addItemToCart: (product: Product) => void;
-  removeItemFromCart: () => void;
+  removeItemFromCart: (cartItemId: string) => void;
   toggleCartOpen: () => void;
 };
 
@@ -45,7 +45,18 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     });
   }
 
-  function removeItemFromCart() {}
+  function removeItemFromCart(cartItemId: string) {
+    setShoppingCart((prev) => {
+      const filteredArray = prev.cartItems.filter(
+        (product) => product.id !== cartItemId
+      );
+
+      return {
+        ...prev,
+        cartItems: filteredArray,
+      };
+    });
+  }
 
   function toggleCartOpen() {
     setShoppingCart((prev) => {
