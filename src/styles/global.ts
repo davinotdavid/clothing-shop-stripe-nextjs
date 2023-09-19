@@ -17,4 +17,9 @@ export const globalStyles = globalCss({
     fontFamily: "Roboto",
     fontWeight: 400,
   },
+
+  ul: {
+    margin: 0,
+    listStyle: "none",
+  },
 });
