@@ -7,6 +7,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { HomeContainer, Product } from "@/styles/pages/home";
 import { stripe } from "@/lib/stripe";
+import { Handbag } from "phosphor-react";
 
 interface HomeProps {
   products: {
@@ -25,6 +26,13 @@ export default function Home({ products }: HomeProps) {
     },
   });
 
+  function handleOnAddToCartClicked(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    event.preventDefault();
+    console.log("hey");
+  }
+
   return (
     <>
       <Head>
@@ -42,8 +50,14 @@ export default function Home({ products }: HomeProps) {
               <Image src={product.imageUrl} alt="" width={520} height={480} />
 
               <footer>
-                <strong>{product.name}</strong>
-                <span>CAD {product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>CAD {product.price}</span>
+                </div>
+
+                <button onClick={handleOnAddToCartClicked}>
+                  <Handbag size={32} weight="bold" />
+                </button>
               </footer>
             </Product>
           </Link>
