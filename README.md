@@ -1,38 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center"> Ignite Shop </h1>
 
-## Getting Started
+<p align="center">
+A web catalog of t-shirts that resembles what an e-commerce flow, integrated with Stripe.
+</p>
 
-First, run the development server:
+<p align="center">
+Check it out live <a href="https://clothing-shop-stripe-nextjs.vercel.app">here</a>!
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+<p align="center">
+  <a href="#technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#project">Project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#learnings">Learnings</a>&nbsp;&nbsp;&nbsp;
+</p>
+
+<p align="center">
+  <img alt="" src=".github/preview.jpg" width="100%">
+</p>
+
+## Technologies
+
+- HTML
+- CSS (Stitches)
+- TypeScript
+- React
+- Next.JS
+- Axios
+- Stripe
+
+## Project
+
+For this project, the goal was to explore Stitches for CSS and Stripe's API to handle payments. The layout itself is quite unique yet simple and currently it is displaying t-shirts but it can be adapted to anything.
+
+All of the content (product images, titles, descriptions and prices) are coming directly from Stripe. Also, this project uses a mixture of SSG and SSR techniques in order to increase the page loading performance.
+
+Since this was done purely for learning purposes, there are a few areas that were left on the side since they were not necessarily the focus area of the project (more on that on the next section). It was a fun project nonetheless though! Hopefully it can serve as a future reference for myself in the future.
+
+This project requires some env variables to work! Please add them to a `.env.local` file before running. Also, again, since all the content comes from Stripe, your account needs items already set.
+
+```
+# App
+NEXT_DEV_URL=http://localhost:3000
+
+# Stripe
+STRIPE_PUBLIC_KEY=
+STRIPE_SECRET_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Learnings
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Stripe's API and Stitches were the two biggest learnings since I haven't used them before this concept project. About Next.JS itself, I gave a little more care about the SSG vs SSR strategies to practice the mental model behind these decisions (even though this has already changed in Next.JS' app folder).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+There are still quite a bit that can be done to make the project better (not an extensive list):
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Design & develop the mobile styles (there is none)
+- Add the ability to have different quantities per item OR allow the user to only ever add one of each item
+- Add error handling tools like Sentry or Datadog
+- Create an actual production Stripe account with items for the live version to work
