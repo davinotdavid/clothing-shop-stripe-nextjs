@@ -1,7 +1,7 @@
 <h1 align="center"> Ignite Shop </h1>
 
 <p align="center">
-A web catalog of t-shirts that resembles what an e-commerce flow, integrated with Stripe.
+A web catalog of t-shirts that resembles an e-commerce flow, integrated with Stripe.
 </p>
 
 <p align="center">
